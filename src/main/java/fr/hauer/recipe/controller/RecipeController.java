@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -43,5 +44,8 @@ public class RecipeController {
         return recipeService.findById(id);
     }
 
-
+    @GetMapping("/recipe/random")
+    public Recipe getRandomRecipe() {
+        return recipeService.getRandom();
+    }
 }

@@ -5,7 +5,10 @@ import fr.hauer.recipe.model.Recipe;
 import fr.hauer.recipe.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class RecipeService {
@@ -21,7 +24,9 @@ public class RecipeService {
     }
 
     public List<Recipe> findAll() {
-        return recipeRepository.findAll();
+        List<Recipe> list =  recipeRepository.findAll();
+        list.sort(Comparator.comparing(Recipe::getName));
+        return list;
     }
 
     public String delete(Long id) {
@@ -42,5 +47,12 @@ public class RecipeService {
             recipe1.setCookTime(recipe.getCookTime());
             return recipeRepository.save(recipe1);
         }).orElse(null);
+    }
+
+    public Recipe getRandom() {
+        List<Recipe> allRecipes = recipeRepository.findAll();
+        Random random = new Random();
+        int randomIndex = random.nextInt(allRecipes.size());
+        return allRecipes.get(randomIndex);
     }
 }
